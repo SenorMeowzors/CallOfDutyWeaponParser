@@ -42,6 +42,9 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.TransferButton = new System.Windows.Forms.Button();
+            this.filtersTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,21 +88,21 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // openSecondToolStripMenuItem
             // 
             this.openSecondToolStripMenuItem.Name = "openSecondToolStripMenuItem";
-            this.openSecondToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openSecondToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openSecondToolStripMenuItem.Text = "Open Second";
             this.openSecondToolStripMenuItem.Click += new System.EventHandler(this.openSecondToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -107,19 +110,19 @@
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
             // helpToolStripMenuItem
@@ -161,11 +164,40 @@
             this.flowLayoutPanel2.TabIndex = 1;
             this.flowLayoutPanel2.WrapContents = false;
             // 
+            // TransferButton
+            // 
+            this.TransferButton.Location = new System.Drawing.Point(621, 566);
+            this.TransferButton.Name = "TransferButton";
+            this.TransferButton.Size = new System.Drawing.Size(372, 23);
+            this.TransferButton.TabIndex = 5;
+            this.TransferButton.Text = "<---Transfer";
+            this.TransferButton.UseVisualStyleBackColor = true;
+            this.TransferButton.Click += new System.EventHandler(this.TransferButton_Click);
+            // 
+            // filtersTextBox
+            // 
+            this.filtersTextBox.Location = new System.Drawing.Point(621, 540);
+            this.filtersTextBox.Name = "filtersTextBox";
+            this.filtersTextBox.Size = new System.Drawing.Size(372, 20);
+            this.filtersTextBox.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(621, 524);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(138, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Filters (Separated by space)";
+            // 
             // WeaponParser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1616, 601);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.filtersTextBox);
+            this.Controls.Add(this.TransferButton);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.menuStrip2);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -196,6 +228,9 @@
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem openSecondToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Button TransferButton;
+        private System.Windows.Forms.TextBox filtersTextBox;
+        private System.Windows.Forms.Label label1;
     }
 }
 

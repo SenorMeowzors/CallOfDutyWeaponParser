@@ -20,7 +20,7 @@ namespace CallOfDutyWeaponParser
         }
 
         string openFile;
-        void PopulateValues(FlowLayoutPanel panel)
+        void PopulateValues(FlowLayoutPanel panel, bool activeFile = false)
         {
 
             var openFileDialog = new OpenFileDialog();
@@ -33,9 +33,11 @@ namespace CallOfDutyWeaponParser
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 panel.Controls.Clear();
-                //Get the path of specified file
-                openFile = openFileDialog.FileName;
-
+                if(activeFile)
+                {
+                    //Get the path of specified file
+                    openFile = openFileDialog.FileName;
+                }
                 //Read the contents of the file into a stream
                 var fileStream = openFileDialog.OpenFile();
 
@@ -48,6 +50,7 @@ namespace CallOfDutyWeaponParser
                     int startY = 3;
                     int size = 30;
                     int index = 0;
+                    DrawingControl.SuspendDrawing(this);
                     foreach (var key in dict.Keys)
                     {
                         var value = dict[key];
@@ -58,7 +61,7 @@ namespace CallOfDutyWeaponParser
                         index++;
                     }
 
-
+                    DrawingControl.ResumeDrawing(this);
                 }
             }
         }
@@ -85,7 +88,7 @@ namespace CallOfDutyWeaponParser
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PopulateValues(flowLayoutPanel1);
+            PopulateValues(flowLayoutPanel1, true);
         }
 
         private void keyValueDisplay1_Load(object sender, EventArgs e)
@@ -140,6 +143,54 @@ namespace CallOfDutyWeaponParser
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WeaponFileUtilities.WriteToPath(flowLayoutPanel1, openFile);
+        }
+
+        public string[] GetFilters()
+        {
+            return filtersTextBox.Text.Split(' ');
+        }
+
+        public bool HasWord(string word)
+        {
+            foreach (var filter in GetFilters())
+            {
+                if (word.ToLower().Contains(filter.ToLower().Trim()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        private void TransferButton_Click(object sender, EventArgs e)
+        {
+            foreach(var control in flowLayoutPanel2.Controls)
+            {
+                var display = (KeyValueDisplay)control;
+
+                if(display != null)
+                {
+                    if (display.IsDifferent)
+                    {
+                        if(HasWord(display.Key))
+                        {
+                            continue;
+                        }
+
+                        var valueToChange = FindControlValue(flowLayoutPanel1, display.Key);
+
+                        float result;
+                        var isNumber = float.TryParse(valueToChange.Value, out result);
+                        if (isNumber)
+                        {
+                            valueToChange.Value = display.Value;
+
+                            valueToChange.MakeColor(Color.Yellow);
+                            display.MakeColor(Color.White);
+                        }
+                    }
+                }
+            }
         }
     }
 }

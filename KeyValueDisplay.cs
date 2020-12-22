@@ -17,6 +17,14 @@ namespace CallOfDutyWeaponParser
         public string Key { get => textBox1.Text; set => this.textBox1.Text = value; }
         public string Value { get => textBox2.Text; set => this.textBox2.Text = value; }
 
+        public bool IsDifferent
+        {
+            get
+            {
+                return textBox2.BackColor.ToArgb() != Color.White.ToArgb();
+            }
+        }
+
         public KeyValueDisplay()
         {
             InitializeComponent();
