@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+
 namespace CallOfDutyWeaponParser
 {
     public partial class WeaponParser : Form
@@ -15,14 +10,11 @@ namespace CallOfDutyWeaponParser
         public WeaponParser()
         {
             InitializeComponent();
-
-
         }
 
         string openFile;
         void PopulateValues(FlowLayoutPanel panel, bool activeFile = false)
         {
-
             var openFileDialog = new OpenFileDialog();
 
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -65,37 +57,11 @@ namespace CallOfDutyWeaponParser
                 }
             }
         }
-
-        private void WeaponParser_Load(object sender, System.EventArgs e)
-        {
-
-        }
-
-        private void BrowseButton_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void menuStrip2_ItemClicked_1(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PopulateValues(flowLayoutPanel1, true);
         }
 
-        private void keyValueDisplay1_Load(object sender, EventArgs e)
-        {
-
-        }
-        
         private void openSecondToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PopulateValues(flowLayoutPanel2);
@@ -137,7 +103,6 @@ namespace CallOfDutyWeaponParser
             }
 
             return null;
-
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -64,12 +61,6 @@ namespace CallOfDutyWeaponParser
 
             result = result.Remove(result.Length - 1, 1);
             return result;
-        }
-
-        ///todo: create OverwriteSP and OverwriteMP functions
-        public static void OverwriteHandling(Control.ControlCollection source, Control.ControlCollection destination)
-        {
-
         }
     }
 }

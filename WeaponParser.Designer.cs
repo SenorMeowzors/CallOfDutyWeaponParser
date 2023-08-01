@@ -67,7 +67,6 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(605, 564);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
-            this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
             // fileToolStripMenuItem
             // 
@@ -150,7 +149,6 @@
             this.menuStrip2.Size = new System.Drawing.Size(1616, 24);
             this.menuStrip2.TabIndex = 4;
             this.menuStrip2.Text = "menuStrip2";
-            this.menuStrip2.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip2_ItemClicked_1);
             // 
             // flowLayoutPanel2
             // 
@@ -205,7 +203,6 @@
             this.MainMenuStrip = this.menuStrip2;
             this.Name = "WeaponParser";
             this.Text = "COD Weapon Parser";
-            this.Load += new System.EventHandler(this.WeaponParser_Load);
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
             this.ResumeLayout(false);
