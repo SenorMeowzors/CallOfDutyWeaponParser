@@ -7,31 +7,40 @@ namespace CallOfDutyWeaponParser
 {
     public partial class WeaponParser : Form
     {
-        public WeaponParser()
+        OpenFileDialog openFileDialog;
+        private static WeaponParser _form;
+        public static bool FileOpen
         {
-            InitializeComponent();
+            get
+            {
+                return _form.BothFilesOpen();
+            }
         }
 
-        string openFile;
-        void PopulateValues(FlowLayoutPanel panel, bool activeFile = false)
+        public WeaponParser()
         {
-            var openFileDialog = new OpenFileDialog();
+            _form = this;
 
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            InitializeComponent();
+
+            openFileDialog = new OpenFileDialog();
+
             openFileDialog.Filter = "All files (*.*)|*.*";
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
+        }
 
+        void PopulateValues(CustomFlowLayoutPanel panel, Label fileNameLabel)
+        {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 panel.Controls.Clear();
-                if(activeFile)
-                {
-                    //Get the path of specified file
-                    openFile = openFileDialog.FileName;
-                }
                 //Read the contents of the file into a stream
                 var fileStream = openFileDialog.OpenFile();
+
+                panel.currentFileName = openFileDialog.FileName;
+
+                fileNameLabel.Text = panel.currentFileName;
 
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
@@ -42,7 +51,8 @@ namespace CallOfDutyWeaponParser
                     int startY = 3;
                     int size = 30;
                     int index = 0;
-                    DrawingControl.SuspendDrawing(this);
+                    DoubleBuffered = true;
+                    //DrawingControl.SuspendDrawing(this);
                     foreach (var key in dict.Keys)
                     {
                         var value = dict[key];
@@ -53,34 +63,54 @@ namespace CallOfDutyWeaponParser
                         index++;
                     }
 
-                    DrawingControl.ResumeDrawing(this);
+                    //DrawingControl.ResumeDrawing(this);
                 }
             }
         }
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void LoadFileIntoPanel(CustomFlowLayoutPanel panel, Label filenameLabel)
         {
-            PopulateValues(flowLayoutPanel1, true);
+            PopulateValues(panel, filenameLabel);
+            CheckIfBothOpen();
         }
 
-        private void openSecondToolStripMenuItem_Click(object sender, EventArgs e)
+        public void CheckIfBothOpen()
         {
-            PopulateValues(flowLayoutPanel2);
-
-            if(flowLayoutPanel1.Controls.Count > 1)
+            if (BothFilesOpen())
             {
-                foreach (var control in flowLayoutPanel1.Controls)
-                {
-                    KeyValueDisplay display = (KeyValueDisplay)control;
-                    display.MakeColor(Color.White);
+                CreateDiff();
+                ShowTransferPanel(true);
+            }
+            else
+            {
+                ShowTransferPanel(false);
+            }
+        }
 
-                    var valueToDiff = FindControlValue(flowLayoutPanel2, display.Key);
-                    if (valueToDiff != null)
+        private void ShowTransferPanel(bool visible)
+        {
+            TransferPanel.Visible = visible;
+        }
+
+        private bool BothFilesOpen()
+        {
+            return flowLayoutPanel1.Controls.Count > 1 && flowLayoutPanel2.Controls.Count > 1;
+        }
+
+        private void CreateDiff()
+        {
+            foreach (var control in flowLayoutPanel1.Controls)
+            {
+                KeyValueDisplay display = (KeyValueDisplay)control;
+                display.MakeColor(Color.White);
+
+                var valueToDiff = FindControlValue(flowLayoutPanel2, display.Key);
+                if (valueToDiff != null)
+                {
+                    if (display.Value != valueToDiff.Value)
                     {
-                        if(display.Value != valueToDiff.Value)
-                        {
-                            valueToDiff.MakeColor(Color.Red);
-                            display.MakeColor(Color.Green);
-                        }
+                        valueToDiff.MakeColor(Color.Red);
+                        display.MakeColor(Color.Green);
                     }
                 }
             }
@@ -103,11 +133,6 @@ namespace CallOfDutyWeaponParser
             }
 
             return null;
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            WeaponFileUtilities.WriteToPath(flowLayoutPanel1, openFile);
         }
 
         public string[] GetFilters()
@@ -156,6 +181,73 @@ namespace CallOfDutyWeaponParser
                     }
                 }
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void OpenFirstFile_Click(object sender, EventArgs e)
+        {
+            LoadFileIntoPanel(flowLayoutPanel1, Panel1Name);
+        }
+
+        private void OpenSecondFile_Click(object sender, EventArgs e)
+        {
+            LoadFileIntoPanel(flowLayoutPanel2, Panel2Name);
+        }
+
+        private void SaveFirstFile_Click(object sender, EventArgs e)
+        {
+            WeaponFileUtilities.WriteToPath(flowLayoutPanel1);
+
+        }
+
+        private void SaveSecondFile_Click(object sender, EventArgs e)
+        {
+            WeaponFileUtilities.WriteToPath(flowLayoutPanel2);
+        }
+
+        public int Clamp(int value, int min, int max)
+        {
+            int num = value;
+            if(value < min)
+            {
+                num = min;
+            }
+            else if(value > max)
+            {
+                num = max;
+            }
+
+            return num;
+        }
+
+        private void FlowLayoutPanel1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
+        {
+            MatchScroll(flowLayoutPanel1, flowLayoutPanel2);
+        }
+        private void FlowLayoutPanel1_ScrollWheel(object sender, MouseEventArgs e)
+        {
+            MatchScroll(flowLayoutPanel1, flowLayoutPanel2);
+        }
+
+        private void FlowLayoutPanel2_ScrollWheel(object sender, MouseEventArgs e)
+        {
+            MatchScroll(flowLayoutPanel2, flowLayoutPanel1);
+        }
+
+        private void FlowLayoutPanel2_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
+        {
+            MatchScroll(flowLayoutPanel2, flowLayoutPanel1);
+        }
+
+        private void MatchScroll(FlowLayoutPanel source, FlowLayoutPanel destination)
+        {
+            var scroll1 = source.VerticalScroll;
+            var scroll2 = destination.VerticalScroll;
+            destination.VerticalScroll.Value = Clamp(scroll1.Value, scroll2.Minimum, scroll2.Maximum);
         }
     }
 }

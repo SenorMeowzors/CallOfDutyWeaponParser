@@ -26,9 +26,14 @@ namespace CallOfDutyWeaponParser
             return weaponDict;
         }
 
-        public static void WriteToPath(FlowLayoutPanel panel, string filepath)
+        public static void WriteToPath(CustomFlowLayoutPanel panel)
         {
-            var file = new System.IO.StreamWriter(filepath);
+            if(panel.currentFileName == null || panel.currentFileName.Length <= 0)
+            {
+                return;
+            }
+
+            var file = new System.IO.StreamWriter(panel.currentFileName);
 
             file.Write(CreateWeaponStringFromCollection(panel.Controls));
             file.Close();
