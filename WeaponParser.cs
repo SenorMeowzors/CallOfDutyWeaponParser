@@ -52,7 +52,6 @@ namespace CallOfDutyWeaponParser
                     int size = 30;
                     int index = 0;
                     DoubleBuffered = true;
-                    //DrawingControl.SuspendDrawing(this);
                     foreach (var key in dict.Keys)
                     {
                         var value = dict[key];
@@ -62,8 +61,6 @@ namespace CallOfDutyWeaponParser
                         panel.Controls.Add(display);
                         index++;
                     }
-
-                    //DrawingControl.ResumeDrawing(this);
                 }
             }
         }
